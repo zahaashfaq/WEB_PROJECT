@@ -1,0 +1,76 @@
+﻿.navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align navbar items to the left */
+    width: 200px;
+    background-color: rgb(18, 35, 54); /* Match background with menu section */
+}
+
+.navbar-brand {
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+    padding: 10px;
+}
+
+.navbar-nav {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Stack links vertically */
+    padding-top: 20px;
+}
+
+.nav-item {
+    margin: 10px 0;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 10px 20px; /* Add padding for better click area */
+    display: block;
+    width: 100%;
+}
+
+    .nav-link:hover {
+        color: rgb(245, 179, 36); /* Hover effect color */
+    }
+
+/* Ensure toggle button visibility for mobile */
+.navbar-toggler {
+    background-color: white;
+}
+
+/* On small screens, hide navbar items initially */
+  @media (max-width: 768px) {
+            .navbar-nav {
+                display: none; 
+                flex-direction: column;
+                align-items: center;
+            } 
+
+.navbar-collapse.show .navbar-nav {
+    display: block; /* Show navbar items when the toggle button is clicked */
+}
+
+.navbar-collapse {
+    width: 100%;
+}
+
+}
+
+/* Navbar items should always be displayed on larger screens */
+  @media (min-width: 769px) {
+            .navbar-nav {
+                display: flex !important;
+                flex-direction: column !important; 
+            }
+            .navbar-toggler {
+                display: none; 
+            }
+        } 

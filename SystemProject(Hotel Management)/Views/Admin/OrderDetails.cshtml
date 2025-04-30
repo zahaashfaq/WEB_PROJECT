@@ -1,0 +1,48 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    Layout = null;
+}
+
+<h2>Order Details</h2>
+
+@if (Model == null)
+{
+    <p>Order not found.</p>
+}
+else
+{
+    <div>
+        <h3>Order ID: @Model.OrderID</h3>
+        <p><strong>Customer Name:</strong> @Model.CustomerName</p>
+        <p><strong>Order Date:</strong> @Model.OrderDate.ToString("MM/dd/yyyy HH:mm")</p>
+        <p><strong>Total Amount:</strong> @Model.TotalAmount.ToString("C")</p>
+        <p><strong>Status:</strong> @Model.Status</p>
+
+        <h4>Ordered Items</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Food Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderItems)
+                {
+                    <tr>
+                        <td>@item.FoodItemName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@item.Total.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <style>
+       
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(to bottom right, #d3d3d3, #a9a9a9); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        img {
+            width: 250px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        .loading-text {
+            font-size: 20px;
+            color: #333;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        setTimeout(function() {
+            window.location.href = '@Url.Action("Index", "Main")';  
+        }, 1000); 
+    </script>
+</head>
+<body>
+    <div>
+        <img src="/images/gif1.gif" alt="Loading..." />
+        <div class="loading-text">Please wait while we load the page...</div>
+    </div>
+</body>
+</html>
+

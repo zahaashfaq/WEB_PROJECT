@@ -1,0 +1,170 @@
+﻿@model RegistrationViewModel
+@{
+    Layout = null;
+}
+
+<style>
+    /* Fullscreen background */
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(to bottom right, rgb(18, 35, 54), #d1a663);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #333;
+    }
+
+    /* Registration card */
+    .register-container {
+        width: 450px;
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 40px 30px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Logo */
+    .logo-container img {
+        width: 80px;
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    /* Title styling */
+    .register-container h2 {
+        font-size: 26px;
+        font-weight: bold;
+        color: rgb(18, 35, 54);
+        margin-bottom: 10px;
+    }
+
+    .register-container p.subtitle {
+        font-size: 14px;
+        color: #7a7a7a;
+        margin-bottom: 30px;
+    }
+
+    /* Input styling */
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+        .form-group label {
+            font-size: 14px;
+            color: rgb(18, 35, 54);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #f8f8f8;
+            transition: all 0.3s ease-in-out;
+        }
+
+            .form-group input:focus,
+            .form-group select:focus {
+                border-color: #d1a663;
+                background: #fff;
+                outline: none;
+            }
+
+    /* Submit button */
+    .btn-register {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        background-color: rgb(18, 35, 54);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .btn-register:hover {
+            background-color: #d1a663;
+            transform: translateY(-2px);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+    /* Links */
+    .register-container p a {
+        text-decoration: none;
+        color: rgb(18, 35, 54);
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+        .register-container p a:hover {
+            color: #d1a663;
+        }
+
+    /* Footer link */
+    .footer-link {
+        font-size: 12px;
+        color: #999;
+        margin-top: 20px;
+    }
+
+        .footer-link a {
+            color: rgb(18, 35, 54);
+        }
+</style>
+
+<div class="register-container">
+    <div class="logo-container">
+        <img src="/images/B__3_-removebg-preview.png" alt="Logo">
+    </div>
+    <h2>Create Your BiteHub Account</h2>
+    <p class="subtitle">Join the community and indulge in your favorites!</p>
+    @if (ViewBag.Message != null)
+    {
+        <div style="color: red; font-size: 14px; margin-bottom: 15px;">
+            @ViewBag.Message
+        </div>
+    }
+    <form method="post">
+        <div class="form-group">
+            <label for="Name">Name</label>
+            <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter your full name" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter your email address" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input type="password" class="form-control" id="Password" name="Password" placeholder="Create a strong password" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Role">Role</label>
+            <select class="form-control" id="Role" name="Role">
+                <option value="Customer">Customer</option>
+                <option value="Admin">Admin</option>
+               
+            </select>
+        </div>
+
+        <button type="submit" class="btn-register">Register</button>
+    </form>
+
+    <p>
+        Already have an account? <a href="/Account/Login">Login here</a>
+    </p>
+</div>

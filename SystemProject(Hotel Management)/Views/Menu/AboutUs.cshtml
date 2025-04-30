@@ -1,0 +1,133 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Restaurant Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Restaurant Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section text-center text-white">
+        <div class="container">
+            <h1 class="display-4">Welcome to Our World of Flavors</h1>
+            <p class="lead">A story of passion, culinary expertise, and excellence in service.</p>
+        </div>
+    </header>
+
+    <!-- Carousel Section -->
+    <div id="aboutCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://via.placeholder.com/1920x600" class="d-block w-100" alt="Restaurant View">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Our Ambiance</h5>
+                    <p>Experience the perfect blend of comfort and luxury.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/1920x600" class="d-block w-100" alt="Delicious Food">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Our Cuisine</h5>
+                    <p>Delight your taste buds with our carefully crafted dishes.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/1920x600" class="d-block w-100" alt="Happy Customers">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Our Story</h5>
+                    <p>Creating memorable dining experiences since our inception.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- About Us Content -->
+    <section class="about-us py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4">
+                    <img src="https://via.placeholder.com/600x400" class="img-fluid rounded" alt="Restaurant Team">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="mb-4">Who We Are</h2>
+                    <p>
+                        At <strong>Restaurant Management</strong>, we believe dining is more than just food – it’s an experience.
+                        From farm-fresh ingredients to innovative recipes, our team strives to deliver culinary perfection.
+                    </p>
+                    <p>
+                        Established in [Year], we have grown into a beloved destination for food enthusiasts. Our commitment to quality, sustainability, and personalized service sets us apart.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="our-values bg-light py-5">
+        <div class="container text-center">
+            <h2 class="mb-5">Our Core Values</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <i class="bi bi-heart-fill fs-1 text-danger"></i>
+                    <h5 class="mt-3">Passion</h5>
+                    <p>We pour our hearts into every dish we serve.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="bi bi-leaf fs-1 text-success"></i>
+                    <h5 class="mt-3">Sustainability</h5>
+                    <p>Committed to eco-friendly practices and fresh, organic ingredients.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="bi bi-people-fill fs-1 text-primary"></i>
+                    <h5 class="mt-3">Community</h5>
+                    <p>Fostering connections and memories through food.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p>&copy; 2024 Restaurant Management. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

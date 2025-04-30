@@ -1,0 +1,210 @@
+﻿/* Body Background */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to right, rgb(18, 35, 54), #1a2a44);
+    color: white;
+    margin: 0;
+    padding: 0;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Header Styling */
+header {
+    position: relative;
+    background: linear-gradient(135deg, rgb(18, 35, 54), #d1a663);
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+    margin: 0;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    border-bottom: 5px solid rgba(255, 255, 255, 0.4);
+}
+
+    header h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 3.5rem;
+        font-weight: 900;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        margin: 0;
+        position: relative;
+        z-index: 2;
+        animation: slideIn 1s ease-out;
+    }
+
+    header p {
+        font-family: 'Roboto', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin-top: 20px;
+        opacity: 0.9;
+        letter-spacing: 1.5px;
+        position: relative;
+        z-index: 2;
+        animation: fadeIn 1.5s ease-out;
+    }
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Background Image */
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('~/images/table5.avif') center center no-repeat;
+    background-size: cover;
+    opacity: 0.2;
+    z-index: 1;
+}
+
+/* Gallery Container */
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 40px 10%;
+    padding: 10px;
+    transition: margin 0.3s ease;
+}
+
+/* Gallery Items */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background-color: rgba(18, 35, 54, 0.8);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+    /* Gallery Item Image */
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease-in-out;
+        border-radius: 12px;
+    }
+
+    /* Hover Effect for Gallery Item */
+    .gallery-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+    /* Overlay Styling */
+    .gallery-item .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+.overlay-text {
+    color: #d1a663;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Overlay Visibility on Hover */
+.gallery-item:hover .overlay {
+    opacity: 1;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #d1a663;
+    color: white;
+    padding: 25px;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -6px 15px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease-in-out;
+}
+
+    /* Footer Hover Effect */
+    footer:hover {
+        background-color: #b18e47;
+    }
+
+    footer p {
+        font-size: 1rem;
+        margin: 0;
+        font-weight: 500;
+        letter-spacing: 1px;
+    }
+
+/* Responsive Layout Adjustments */
+@media (max-width: 768px) {
+    .gallery-container {
+        margin: 40px 5%;
+    }
+
+    .gallery-item img {
+        border-radius: 8px;
+    }
+
+    header h1 {
+        font-size: 2.5rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-container {
+        margin: 40px 2%;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    header p {
+        font-size: 0.9rem;
+    }
+}

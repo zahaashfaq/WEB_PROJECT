@@ -1,0 +1,212 @@
+﻿@{
+    Layout = null;
+}
+
+@model List<SystemProject_Hotel_Management_.Models.Table>
+
+<style>
+    /* General Body Styling */
+    body {
+        background-color: rgb(255, 250, 240);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Main Container */
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 50px;
+    }
+
+    /* Heading Styling */
+    h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #1e3d58;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    /* Table Design */
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-table th, .custom-table td {
+        vertical-align: middle;
+        padding: 15px 25px;
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    .custom-table th {
+        background-color: #2d3e50;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: bold;
+    }
+
+    .custom-table tbody tr {
+        background-color: #f9f9f9;
+    }
+
+    /* Hover Effect on Table Rows */
+    .custom-table tbody tr:hover {
+        background-color: #e0f7fa;
+        transform: scale(1.02);
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    /* Table Status Badge */
+    .badge {
+        font-size: 1rem;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+
+    .bg-success {
+        background-color: #28a745 !important;
+        color: white;
+    }
+
+    .bg-danger {
+        background-color: #dc3545 !important;
+        color: white;
+    }
+
+    /* Button Styling */
+    .btn-outline-primary {
+        border: 2px solid #007bff;
+        color: #007bff;
+        font-size: 1.1rem;
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .reserve-btn {
+        font-size: 1.1rem;
+        padding: 10px 25px;
+        border-radius: 50px;
+        background-color: #ff7043;
+        color: white;
+        font-weight: bold;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .reserve-btn:hover {
+        background-color: #f44336;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+    }
+
+    .btn-outline-secondary {
+        border: 2px solid #6c757d;
+        color: #6c757d;
+        font-size: 1rem;
+        padding: 8px 20px;
+        border-radius: 50px;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-close {
+        padding: 0;
+        background: transparent;
+        border: none;
+    }
+
+    /* Alert Styling */
+    .alert {
+        font-weight: bold;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .alert-dismissible .btn-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+</style>
+
+<div class="container">
+    <h2>Available Tables</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Tables Section -->
+    <div class="table-container">
+        <table class="table custom-table">
+            <thead>
+                <tr>
+                    <th>Table Number</th>
+                    <th>Seats</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var table in Model)
+                {
+                    <tr>
+                        <td>@table.TableNumber</td>
+                        <td>@table.Seats</td>
+                        <td>
+                            <span class="badge @((table.Status == "Available") ? "bg-success" : "bg-danger")">
+                                @table.Status
+                            </span>
+                        </td>
+                        <td>
+                            @if (table.Status == "Available")
+                            {
+                                <form asp-action="ReserveTable" method="post" class="d-inline">
+                                    <input type="hidden" name="tableId" value="@table.Id" />
+                                    <button type="submit" class="btn reserve-btn" >
+                                        <i class="bi bi-check-circle"></i> Reserve Now
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <button class="btn btn-outline-secondary" disabled>
+                                    <i class="bi bi-x-circle"></i> Booked
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

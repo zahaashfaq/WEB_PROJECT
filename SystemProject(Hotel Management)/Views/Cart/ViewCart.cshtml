@@ -1,0 +1,223 @@
+﻿@{
+    Layout = null;
+}
+
+@model List<CartItemViewModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Cart</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f1f3f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cart-container {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+            .cart-container:hover {
+                transform: translateY(-5px);
+            }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 25px;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+            .cart-table th, .cart-table td {
+                padding: 15px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+                font-size: 1.1rem;
+            }
+
+            .cart-table th {
+                background-color: #3498db;
+                color: white;
+            }
+
+            .cart-table tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            .cart-table tr:hover {
+                background-color: #ecf0f1;
+            }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin: 5px;
+        }
+
+            .btn:hover {
+                transform: scale(1.05);
+            }
+
+            .btn.remove {
+                background-color: #e74c3c;
+            }
+
+                .btn.remove:hover {
+                    background-color: #c0392b;
+                }
+
+            .btn.clear {
+                background-color: #dc3545;
+            }
+
+                .btn.clear:hover {
+                    background-color: #c82333;
+                }
+
+            .btn.checkout {
+                background-color: #28a745;
+            }
+
+                .btn.checkout:hover {
+                    background-color: #218838;
+                }
+
+        .cart-summary {
+            font-size: 1.2rem;
+            margin-top: 30px;
+            text-align: right;
+        }
+
+        .cart-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #f39c12;
+            padding: 20px;
+            background-color: #f9e1a1;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .cart-table td .remove {
+            font-size: 0.9rem;
+            padding: 8px 15px;
+            background-color: #e74c3c;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+            .cart-table td .remove:hover {
+                background-color: #c0392b;
+            }
+
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
+            padding: 30px 0;
+            background-color: #2c3e50;
+            color: white;
+        }
+
+            footer a {
+                color: #ecf0f1;
+                text-decoration: none;
+                margin-left: 10px;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h1>Your Cart</h1>
+
+        @if (Model.Count == 0)
+        {
+            <div class="empty-cart-message">
+                <p>Your cart is empty. <a href="@Url.Action("ViewMenu", "Menu")">Browse our items and add to your cart</a>.</p>
+            </div>
+        }
+        else
+        {
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Food Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.FoodItemName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price.ToString("C")</td>
+                            <td>@item.Total.ToString("C")</td>
+                            <td>
+                                <form method="post" action="@Url.Action("RemoveFromCart", "Cart", new { cartItemId = item.ID })">
+                                    <button type="submit" class="btn remove">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="cart-summary">
+                <strong>Total Price:</strong> @Model.Sum(ci => ci.Total).ToString("C")
+            </div>
+
+            <div class="cart-actions">
+                <a href="@Url.Action("Checkout", "Cart")" class="btn checkout">Proceed to Checkout</a>
+                <a href="@Url.Action("ClearCart", "Cart")" class="btn clear">Clear Cart</a>
+            </div>
+        }
+    </div>
+
+    <footer>
+        <p>&copy; 2024 BiteHub Restaurant | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+</body>
+</html>

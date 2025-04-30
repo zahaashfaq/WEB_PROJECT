@@ -1,0 +1,92 @@
+﻿@* @* @*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+@model SystemProject_Hotel_Management_.Models.Table
+<!-- Add your custom CSS for styling -->
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-label {
+        font-weight: bold;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .form-input {
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .btn-block {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .alert {
+        margin-bottom: 20px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .mb-4 {
+        margin-bottom: 1.5rem;
+    }
+</style>
+@{
+    ViewData["Title"] = "Edit Table";
+}
+
+<h2 class="text-center mb-4">Edit Table Details</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<form asp-action="EditTable" method="post" class="form-container">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="TableNumber" class="form-label"></label>
+        <input asp-for="TableNumber" class="form-control form-input" />
+        <span asp-validation-for="TableNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Seats" class="form-label"></label>
+        <input asp-for="Seats" class="form-control form-input" />
+        <span asp-validation-for="Seats" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Status" class="form-label"></label>
+        <input asp-for="Status" class="form-control form-input" />
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+</form>
+

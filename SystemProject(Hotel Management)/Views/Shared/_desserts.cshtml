@@ -1,0 +1,179 @@
+﻿@using System.Security.Claims
+@model IEnumerable<SystemProject_Hotel_Management_.Models.FoodItemViewModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        .menu-section {
+            padding: 3px 20px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+
+        .section-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            max-width: 280px;
+            height: 480px;
+            text-align: left;
+        }
+
+            .menu-item:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+
+        .menu-image {
+            width: 100%;
+            height: 50%;
+            display: flex;
+            justify-items: center;
+        }
+
+        .menu-name {
+            font-size: 1.5em;
+            margin: 15px 10px 5px;
+            color: #C0272C;
+        }
+
+        .menu-description {
+            font-size: 1em;
+            color: #666;
+            margin: 0 10px 10px;
+        }
+
+        .menu-price {
+            font-size: 1.2em;
+            color: #C0272C;
+            margin: 0 10px 15px;
+        }
+
+        .order-button {
+            display: block;
+            width: calc(100% - 20px);
+            margin: 0 10px 15px;
+            background-color: rgb(18, 35, 54);
+            color: #fff;
+            border: none;
+            padding: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+            .order-button:hover {
+                background-color: #a0522d;
+            }
+
+    </style>
+</head>
+<body>
+    <section id="burger-section" class="menu-section">
+        <h2 class="section-title" style="color:#C0272C; font-family:Arial, Helvetica, sans-serif; font-weight: 900; font-size: 60px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">Desserts</h2>
+        <div class="menu-grid">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model.Where(f => f.CategoryID == 6))
+                {
+                    <div class="menu-item">
+                        <img src="@Url.Content(item.PictureURL)" alt="@item.Name" class="menu-image">
+                        <h3 class="menu-name">@item.Name</h3>
+                        <p class="menu-description">@item.Description</p>
+                        <p class="menu-price">Rs. @item.Price</p>
+                        <button class="btn order-now-btn order-button"
+                                data-id="@item.ID"
+                                data-name="@item.Name"
+                                data-description="@item.Description"
+                                data-price="@item.Price"
+                                data-image="@Url.Content(item.PictureURL)"
+                                data-rating="★★★☆☆">
+                            Order Now
+                        </button>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No items available.</p>
+            }
+        </div>
+    </section>
+    <!-- Modal -->
+    <div class="modal fade" id="customModal" tabindex="-1" aria-labelledby="customModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content custom-modal">
+                <!-- Modal Header -->
+                <div class="modal-header custom-modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <a href="#" class="close-btn" data-bs-dismiss="modal" aria-label="Close">&times;</a>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body custom-modal-body">
+                    <div class="row">
+                        <!-- Image -->
+                        <div class="col-md-6">
+                            <img id="modalImage" src="" alt="Item Image" class="img-fluid">
+                        </div>
+                        <!-- Details -->
+                        <div class="col-md-6">
+                            <h4 id="modalDescription" class="modal-description"></h4>
+                            <p id="modalPrice" class="modal-price"></p> <!-- Price directly below description -->
+                            <p id="modalRating"></p>
+
+                            <!-- Meal Selection -->
+                            <div class="mb-3">
+                                <label for="mealSelect" class="form-label">Meal</label>
+                                <select class="form-select" id="mealSelect">
+                                    <option selected>Combo (with drink)</option>
+                                    <option value="1">Burger Only</option>
+                                </select>
+                            </div>
+
+                            <!-- Quantity Controls -->
+                            <div class="quantity-controls mb-3">
+                                <button class="decrease-btn">-</button>
+                                <input type="text" value="1" readonly style="width: 40px; text-align: center;">
+                                <button class="increase-btn">+</button>
+                            </div>
+
+                            <form id="addToCartForm" method="post" action="@Url.Action("AddToCart","Cart")" onsubmit="console.log('Form is being submitted')">
+
+                                <input type="hidden" name="foodItemId" id="modalFoodItemId" value="" />
+                                <input type="hidden" name="quantity" id="modalQuantity" value="1" />
+                                <input type="hidden" name="userId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+
+                                <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

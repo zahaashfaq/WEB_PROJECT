@@ -1,0 +1,135 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    Layout = null;
+}
+
+@model List<SystemProject_Hotel_Management_.Models.Reservation1>
+
+<style>
+    /* General Styles */
+    body {
+        background-color: #f9f9f9; /* Soft background */
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        font-weight: 700;
+        font-size: 2rem;
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .alert {
+        font-size: 1rem;
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    /* Table Styles */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        font-size: 1rem;
+    }
+
+    th {
+        background-color: #27ae60; /* Earthy green */
+        color: white;
+        font-weight: 600;
+    }
+
+    td {
+        background-color: #f9f9f9; /* Light gray for rows */
+    }
+
+    tr:nth-child(even) td {
+        background-color: #f2f2f2; /* Alternating row colors */
+    }
+
+    tr:hover td {
+        background-color: #e0f7e0; /* Highlight row on hover */
+    }
+
+    /* Table Borders */
+    table, th, td {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+</style>
+
+<div class="container">
+    <h2 class="text-center">View Reservations</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Reservation Number</th>
+                <th>User Name</th>
+                <th>Table Number</th>
+                <th>Seats</th>
+                <th>Status</th>
+                <th>Reservation Date</th>
+                <th>Reservation Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reservation in Model)
+            {
+                <tr>
+                    <td>@reservation.Id</td>
+                    <td>@reservation.User.Name</td>
+                    <td>@reservation.Table.TableNumber</td>
+                    <td>@reservation.PartySize</td>
+                    <td>@reservation.Status</td>
+                    <td>@reservation.ReservationDate.ToString("MMMM dd, yyyy")</td>
+                    <td>@reservation.ReservationTime</td>
+                    <td>
+                        @if (reservation.Status != "Cancelled")
+                        {
+                            <form action="@Url.Action("CancelReservation", "Admin")" method="post" onsubmit="return confirm('Are you sure you want to cancel this reservation?');">
+                                <input type="hidden" name="reservationId" value="@reservation.Id" />
+                                <button type="submit" class="btn btn-danger">Cancel</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

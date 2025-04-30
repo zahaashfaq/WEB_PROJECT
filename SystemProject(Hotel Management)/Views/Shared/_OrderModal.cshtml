@@ -1,0 +1,256 @@
+﻿<style>
+    /* The Modal */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1000; /* High z-index to appear on top */
+        top: 0;
+        left: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+    }
+
+    /* The Modal Overlay */
+    .modal-overlay {
+        position: fixed; /* Full-screen */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        z-index: -1; /* Behind modal content */
+    }
+
+    /* Modal content box */
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        width: 80%;
+        max-width: 900px;
+        border-radius: 10px;
+    }
+
+    /* Close button styling */
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 30px;
+        cursor: pointer;
+        color: #000;
+        background: transparent;
+        border: none;
+    }
+
+        .close:hover {
+            color: #ff0000;
+        }
+
+    /* Other styles for modal content */
+    .modal-body {
+        display: flex;
+        padding: 20px;
+    }
+
+    .image-container {
+        flex: 1;
+        padding-right: 20px;
+    }
+
+    .options-container {
+        flex: 1;
+    }
+
+    .quantity-control {
+        display: flex;
+        align-items: center;
+    }
+
+        .quantity-control input {
+            width: 40px;
+            text-align: center;
+            margin: 0 10px;
+        }
+
+    #addonsSection {
+        margin-top: 20px;
+    }
+
+    #addonsList {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .addon-item {
+        width: 120px;
+        text-align: center;
+    }
+
+        .addon-item img {
+            width: 100%;
+            height: auto;
+        }
+
+        .addon-item button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+            .addon-item button:hover {
+                background-color: #218838;
+            }
+
+
+</style>
+
+<div id="orderModal" class="modal">
+    <!-- Modal Background Overlay -->
+    <div class="modal-overlay"></div>
+
+    <div class="modal-content">
+        <span class="close" id="closeModalBtn">&times;</span>
+        <div class="modal-header">
+            <span id="modalTitle" class="modal-title"></span>
+            <small id="modalSubTitle"></small>
+        </div>
+        <div class="modal-body">
+            <div class="image-container">
+                <img id="modalImage" src="" alt="Item Image" style="width: 100%; height: auto;">
+            </div>
+            <div class="options-container">
+                <h3 id="itemName">Item Name</h3>
+                <p id="itemDescription">Item Description</p>
+                <p id="itemRating">Rating: ★★★☆☆</p>
+                <div id="drinksOptions">
+                    <label>
+                        <input type="radio" name="drink" value="150" class="drink-option">
+                        Drink 1 - $150
+                    </label>
+                    <label>
+                        <input type="radio" name="drink" value="150" class="drink-option">
+                        Drink 2 - $150
+                    </label>
+                    <label>
+                        <input type="radio" name="drink" value="150" class="drink-option">
+                        Drink 3 - $150
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="quantity-control">
+                <button id="decreaseQuantity">-</button>
+                <input type="text" id="quantity" value="1" readonly>
+                <button id="increaseQuantity">+</button>
+            </div>
+            <button id="addToCartBtn" class="add-to-cart">Add To Cart - $<span id="totalPrice">150</span></button>
+        </div>
+        <div id="addonsSection">
+            <h4>Additional Items</h4>
+            <div id="addonsList"></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let totalPrice = 150; // Default price
+        let quantity = 1;
+        let selectedDrinkPrice = 150;
+        let selectedAddons = [];
+
+        // Update the total price based on quantity
+        function updateTotalPrice() {
+            const total = selectedDrinkPrice * quantity + selectedAddons.reduce((acc, addon) => acc + addon.price, 0);
+            document.getElementById('totalPrice').textContent = total.toFixed(2);
+        }
+
+        // Drink selection change handler
+        document.querySelectorAll('.drink-option').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                selectedDrinkPrice = parseFloat(e.target.value);
+                updateTotalPrice();
+            });
+        });
+
+        // Quantity buttons
+        document.getElementById('decreaseQuantity').addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                document.getElementById('quantity').value = quantity;
+                updateTotalPrice();
+            }
+        });
+
+        document.getElementById('increaseQuantity').addEventListener('click', () => {
+            quantity++;
+            document.getElementById('quantity').value = quantity;
+            updateTotalPrice();
+        });
+
+        // Add items to cart from addons
+        function addAddonToCart(addon) {
+            selectedAddons.push(addon);
+            updateTotalPrice();
+        }
+
+        // Dynamically load add-ons from categories 7 and 8
+        function loadAddons() {
+            // Here you would make an AJAX request to fetch the add-ons from your database
+            // Example data from categories 7 and 8 (replace with your actual DB call)
+            const addons = [
+                { id: 1, name: 'Addon 1', price: 50, image: 'addon1.jpg' },
+                { id: 2, name: 'Addon 2', price: 75, image: 'addon2.jpg' }
+            ];
+
+            const addonsList = document.getElementById('addonsList');
+            addons.forEach(addon => {
+                const addonDiv = document.createElement('div');
+                addonDiv.className = 'addon-item';
+                addonDiv.innerHTML = `
+                    <img src="${addon.image}" alt="${addon.name}">
+                    <p>${addon.name} - $${addon.price}</p>
+                    <button onclick="addAddonToCart({ id: ${addon.id}, price: ${addon.price} })">+</button>
+                `;
+                addonsList.appendChild(addonDiv);
+            });
+        }
+
+        // Load the add-ons when modal opens
+        loadAddons();
+
+        // Handle Add to Cart action
+        document.getElementById('addToCartBtn').addEventListener('click', () => {
+            alert('Item added to cart. Total: $' + document.getElementById('totalPrice').textContent);
+            // Handle the cart logic here (send data to the server or update UI)
+        });
+
+        // Modal close button functionality
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modal = document.getElementById('orderModal');
+        const overlay = document.querySelector('.modal-overlay');
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';  // Hide modal content
+            overlay.style.display = 'none';  // Hide the overlay
+        });
+
+        // To open the modal, set its display to 'block' and also show the overlay
+        // Example for opening the modal:
+        // document.getElementById('openModalBtn').addEventListener('click', () => {
+        //     modal.style.display = 'block';
+        //     overlay.style.display = 'block';
+        // });
+    });
+
+
+</script>
+

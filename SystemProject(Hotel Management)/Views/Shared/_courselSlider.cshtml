@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
+    <style>
+
+
+        .carousel-container {
+           
+            margin-top:10px;
+            padding: 0;
+            width: 100%;
+            position: relative;
+        }
+
+        .carousel-title{
+            margin-top: 80px;
+            margin-left:45px;
+            /* border-bottom: 1px solid #d7d4d4; */
+            font-size: 30px;
+            text-transform: uppercase;
+            display: inline-block;
+            padding: 10px;
+            margin-bottom: 20px;
+            color:black;
+            width: 50%;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .carousel-title  p{
+            font-size:16px;
+        }
+        .slider {
+            margin: 0;
+            padding: 0;
+            width: 100vw; 
+            position: relative;
+        }
+
+            .slider img, .slider .btn {
+                width: 89%;
+                height: auto;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: transform 0.5s, opacity 0.5s;
+                object-fit: cover;
+            }
+
+        .slick-slide {
+            transform: scale(0.8);
+            opacity: 0.5;
+            transition: transform 0.5s, opacity 0.5s;
+            margin: 0;
+            width: 100vw; 
+        }
+
+            .slick-slide.slick-center {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+        .slick-dots {
+            text-align: center;
+            margin: 20px 0 0;
+        }
+
+            .slick-dots li {
+                display: inline-block;
+                margin: 0 5px;
+            }
+
+            .slick-dots button {
+                width: 10px;
+                height: 10px;
+                background-color: #ccc;
+                border-radius: 50%;
+                border: none;
+                outline: none;
+            }
+
+            .slick-dots .slick-active button {
+                background-color: #333;
+            }
+
+        .slick-prev,
+        .slick-next {
+            position: absolute;
+            top: 50%; 
+            cursor: pointer;
+            outline: none;
+            border-top: 2px solid #666;
+            border-right: 1px solid #666;
+            height: 15px;
+            width: 15px;
+            z-index: 10;
+        }
+
+        .slick-prev {
+            left: 20px;
+            transform: rotate(-135deg);
+        }
+
+        .slick-next {
+            right: 40px;
+            transform: rotate(45deg);
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="carousel-container">
+        <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+            <div class="text-container p-4">
+                <h2 class=" carousel-title" style="font-family: 'Arial, sans-serif'; color: rgb(18, 35, 54);">
+                        What's On at The Bite Hub
+                        <div style="border-top: 2px dashed #d1a663; width: 50%; margin: 10px auto;"></div>
+                </h2>
+            </div>
+        <div>
+            <ul class="carousel slider">
+                <li><a href="#"><img src="~/images/Alfredo.png" alt="Pasta"></a></li>
+                <li><a href="#"><img src="~/images/Burger.png" alt="Burger"></a></li>
+                <li><a href="#"><img src="~/images/Pizza.jpg" alt="Pizzaa"></a></li>
+                <li><a href="#"><img src="~/images/sandwich1.jpg" alt="Sandwich"></a></li>
+                <li><a href="#"><img src="~/images/kabab.jpg" alt="Kabab"></a></li>
+                <li><a href="#"><img src="~/images/Lasagna.png" alt="Lasagna"></a></li>
+                <li><a href="#"><img src="~/images/Biryani2.webp" alt="biryani"></a></li>
+            <li>
+                <a href="@Url.Action("ViewMenu", "Menu")" target="_blank">
+                    <button class="btn" style="background-color: black; color: aliceblue; position: relative; left: 50%; transform: translateX(-50%); top: 228px;">
+                        View Menu
+                    </button>
+                </a>
+            </li>
+
+            </ul>
+        </div>
+    
+
+    <!-- Include necessary JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $(".slider").slick({
+                autoplay: true,
+                infinite: true,
+                speed: 1000,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                prevArrow: '<button class="slick-prev"></button>',
+                nextArrow: '<button class="slick-next"></button>',
+                centerMode: true,
+                dots: true,
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 2,
+                        },
+                    },
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 1,
+                        },
+                    },
+                ],
+            });
+        });
+    </script>
+</body>
+</html>

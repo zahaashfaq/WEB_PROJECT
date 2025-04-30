@@ -1,0 +1,380 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using System.Security.Claims
+@model IEnumerable<SystemProject_Hotel_Management_.Models.FoodItemViewModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .menu-section {
+            padding: 3px 20px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+
+        .section-title {
+            font-size: 30px;
+            margin-bottom: 20px;
+            color: #C0272C;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            max-width: 280px;
+            height: 480px;
+            text-align: left;
+        }
+
+            .menu-item:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+
+        .menu-image {
+            width: 100%;
+            height: 50%;
+            display: flex;
+            justify-items: center;
+        }
+
+        .menu-name {
+            font-weight: 900;
+            font-size: 7em;
+            margin: 15px 10px 5px;
+            color: #C0272C;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-description {
+            font-size: 1em;
+            color: #666;
+            margin: 0 10px 10px;
+        }
+
+        .menu-price {
+            font-weight: 900;
+            font-size: 7em;
+            color: #C0272C;
+            margin: 0 10px 15px;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .order-button {
+            display: block;
+            width: calc(100% - 20px);
+            margin: 0 10px 15px;
+            background-color: rgb(18, 35, 54);
+            color: #fff;
+            border: none;
+            padding: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+            .order-button:hover {
+                background-color: #a0522d;
+            }
+
+
+
+
+        /* Custom Modal Styling */
+        .custom-modal {
+            background-color: rgb(18, 35, 54);
+            color: white;
+            border: 2px solid #FFC107;
+        }
+
+        .custom-modal-header {
+            background-color: #C0272C;
+            color: white;
+        }
+
+        .custom-modal .close-btn {
+            color: #FFC107;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .custom-modal-body img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .modal-price {
+            font-size: 1.4em; /* Adjust size for clarity */
+            font-weight: bold;
+            color: #C0272C;
+            margin-top: -530px; /* Ensure space between description and price */
+        }
+
+        .modal-description {
+            color: #FFC107;
+        }
+
+        .custom-modal .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .custom-modal .quantity-controls button {
+                background-color: #C0272C;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 4px;
+            }
+
+        .custom-modal .add-to-cart-btn {
+            background-color: #FFC107;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            width: 100%;
+        }
+        /* General styling for the cart items container */
+        /* Container for the cart item */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Cart item image styling */
+        .cart-item-image {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+        }
+
+        .cart-item-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Cart item info styling */
+        .cart-item-info {
+            flex-grow: 1;
+        }
+
+        /* Name of the food item */
+        .cart-item-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        /* Quantity and price styling */
+        .cart-item-quantity,
+        .cart-item-price {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        /* Price styling */
+        .cart-item-price {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        /* Style for the container */
+        #cart-items-container {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <section id="pizza-section" class="menu-section">
+        <h2 class="section-title" style="color:#C0272C; font-family:Arial, Helvetica, sans-serif; font-weight: 900; font-size: 60px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">PIZZAS</h2>
+        <div class="menu-grid">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model.Where(f => f.CategoryID == 2))
+                {
+                    <div class="menu-item">
+                        <img src="@Url.Content(item.PictureURL)" alt="@item.Name" class="menu-image">
+                        <h3 class="menu-name">@item.Name</h3>
+                        <p class="menu-description">@item.Description</p>
+                        <p class="menu-price">Rs. @item.Price</p>
+                        <button class="btn order-now-btn order-button"
+                                data-id="@item.ID"
+                                data-name="@item.Name"
+                                data-description="@item.Description"
+                                data-price="@item.Price"
+                                data-image="@Url.Content(item.PictureURL)"
+                                data-rating="★★★☆☆">
+                            Order Now
+                        </button>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No items available.</p>
+            }
+        </div>
+    </section>
+    <!-- Modal -->
+    <div class="modal fade" id="customModal" tabindex="-1" aria-labelledby="customModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content custom-modal">
+                <!-- Modal Header -->
+                <div class="modal-header custom-modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <a href="#" class="close-btn" data-bs-dismiss="modal" aria-label="Close">&times;</a>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body custom-modal-body">
+                    <div class="row">
+                        <!-- Image -->
+                        <div class="col-md-6">
+                            <img id="modalImage" src="" alt="Item Image" class="img-fluid">
+                        </div>
+                        <!-- Details -->
+                        <div class="col-md-6">
+                            <h4 id="modalDescription" class="modal-description"></h4>
+                            <p id="modalPrice" class="modal-price"></p> <!-- Price directly below description -->
+                            <p id="modalRating"></p>
+
+                            <!-- Meal Selection -->
+                            <div class="mb-3">
+                                <label for="mealSelect" class="form-label">Meal</label>
+                                <select class="form-select" id="mealSelect">
+                                    <option selected>Combo (with drink)</option>
+                                    <option value="1">Burger Only</option>
+                                </select>
+                            </div>
+
+                            <!-- Quantity Controls -->
+                            <div class="quantity-controls mb-3">
+                                <button class="decrease-btn">-</button>
+                                <input type="text" value="1" readonly style="width: 40px; text-align: center;">
+                                <button class="increase-btn">+</button>
+                            </div>
+
+                            <form id="addToCartForm" method="post" action="@Url.Action("AddToCart","Cart")" onsubmit="console.log('Form is being submitted')">
+
+                                <input type="hidden" name="foodItemId" id="modalFoodItemId" value="" />
+                                <input type="hidden" name="quantity" id="modalQuantity" value="1" />
+                                <input type="hidden" name="userId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+
+                                <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
+
+@* <body>
+    <section id="pizza-section" class="menu-section">
+        <h2 class="section-title" style="color:#C0272C; font-family:Arial, Helvetica, sans-serif; font-weight: 900; font-size: 60px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">PIZZAS</h2>
+
+        <div class="menu-grid">
+            <!-- Pizza Item -->
+            <div class="menu-item">
+                <img src="/images/crown-piiza2.jpg" alt="Margherita Pizza" class="menu-image">
+                <h3 class="menu-name">Crow Crust</h3>
+                <p class="menu-description">Beef Seekh Kabab Corners: Double Cheese,Chicken Tikka,Black Olives,Veggies,Crown Sauce.</p>
+                <p class="menu-price">RS. 1899</p>
+                <button class="order-button">Order Now</button>
+            </div>
+            <div class="menu-item">
+                <img src="/images/tandooriComp-pizza2.jpg" alt="Margherita Pizza" class="menu-image">
+                <h3 class="menu-name">Chicken Tandori</h3>
+                <p class="menu-description">Dough Stuffed Kabab, Buffalo Chicken, Tomato Paste, Jalapeno, Onion, Tandoori Mayo Sauce</p>
+                <p class="menu-price">RS. 1799</p>
+                <button class="order-button">Order Now</button>
+            </div>
+            <div class="menu-item">
+                <img src="/images/mughlaiComp-pizza2.jpg" alt="Margherita Pizza" class="menu-image">
+                <h3 class="menu-name">Mughlai Pizza</h3>
+                <p class="menu-description">Mughali Chicken, Dough Stuffed Kabab, White Sauce, Black Olive, Tomato Onion.</p>
+                <p class="menu-price">RS. 1299</p>
+                <button class="order-button">Order Now</button>
+            </div>
+            <div class="menu-item">
+                <img src="/images/Pizza.jpg" alt="Margherita Pizza" class="menu-image">
+                <h3 class="menu-name">Chicken Fajita</h3>
+                <p class="menu-description">
+                    The love of Pakistanis for Fajita is nothing new.Chicken Fajita, Green Peppers & Onions
+                </p>
+                <p class="menu-price">RS. 1199</p>
+                <button class="order-button">Order Now</button>
+            </div>
+            <div class="menu-item">
+                <img src="/images/pizza2.jpg" alt="Margherita Pizza" class="menu-image">
+                <h3 class="menu-name">Malai Boti</h3>
+                <p class="menu-description">One of our best seller for a reason. Ok, you still want to guess? Think juicy, tender, creamy, delicious.</p>
+                <p class="menu-price">RS. 1499</p>
+                <button class="order-button">Order Now</button>
+            </div>
+            <div class="menu-item">
+                <img src="/images/pizza3.jpg" alt="Margherita Pizza" class="menu-image">
+                <h3 class="menu-name">Meat Max</h3>
+                <p class="menu-description">Go On A Meat Spree! Topped With Beef Sausages, Beef Pepperoni & Mushrooms.</p>
+                <p class="menu-price">RS. 1699</p>
+                <button class="order-button">Order Now</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+               document.querySelectorAll('.order-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const pizzaName = button.parentElement.querySelector('.menu-name').textContent;
+                alert(`You have selected ${pizzaName}.`);
+
+            });
+        });
+
+
+    </script>
+</body>
+</html> *@
